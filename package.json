@@ -1,0 +1,21 @@
+{
+  "name": "fullbackend",
+  "version": "1.0.0",
+  "description": "js",
+  "keywords": [
+    "nodejs",
+    "react"
+  ],
+  "license": "ISC",
+  "author": "mp",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node app.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "sqlite3": "^5.1.7"
+  } 
+}
