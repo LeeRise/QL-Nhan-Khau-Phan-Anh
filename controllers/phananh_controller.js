@@ -53,3 +53,49 @@ exports.remove = (req, res) => {
     res.json({ deleted: this.changes });
   });
 };
+
+// Lấy phản ánh của người dùng hiện tại
+exports.getMyReports = (req, res) => {
+  const Ma_CCCD = req.user.cccd; // Giả sử user có CCCD trong token
+
+  db.all(
+    "SELECT * FROM Phan_Anh WHERE Ma_CCCD = ? ORDER BY Ngay_PA DESC",
+    [Ma_CCCD],
+    (err, rows) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json(rows);
+    }
+  );
+};
+
+// Phản hồi phản ánh
+exports.reply = (req, res) => {
+  const id = req.params.id;
+  const { Phan_Hoi, Trang_Thai } = req.body;
+
+  const fields = [];
+  const params = [];
+
+  if (Phan_Hoi) {
+    fields.push("Phan_Hoi = ?");
+    params.push(Phan_Hoi);
+  }
+
+  if (Trang_Thai) {
+    fields.push("Trang_Thai = ?");
+    params.push(Trang_Thai);
+  }
+
+  if (fields.length === 0) {
+    return res.status(400).json({ error: "Không có dữ liệu để cập nhật" });
+  }
+
+  params.push(id);
+  const sql = `UPDATE Phan_Anh SET ${fields.join(", ")} WHERE Ma_PA = ?`;
+
+  db.run(sql, params, function (err) {
+    if (err) return res.status(500).json({ error: err.message });
+    if (this.changes === 0) return res.status(404).json({ error: "Không tìm thấy phản ánh" });
+    res.json({ message: "Phản hồi thành công", updated: this.changes });
+  });
+};

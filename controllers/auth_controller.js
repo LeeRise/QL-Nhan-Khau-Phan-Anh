@@ -37,7 +37,7 @@ const sql = `
         );
         
         res.json({
-            sucess: true,
+            success: true,
             token,
             role: user.Ten_VT
         });

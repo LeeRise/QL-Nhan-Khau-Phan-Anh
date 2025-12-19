@@ -4,7 +4,7 @@ exports.verifyToken = (req, res, next) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     if (!token) {
-        return res.status(401).json({ message: 'Token không được cung cấp' });
+        return res.status(401).json({ message: 'Chưa đăng nhập' });
     }
 
     jwt.verify(token, process.env.JWT_SECRET || "qlnk_secret_key", (err, decoded) => {
@@ -16,9 +16,9 @@ exports.verifyToken = (req, res, next) => {
     });
 };
 
-exports.checkRole = (roles) => {
+exports.checkRole = (role) => {
     return (req, res, next) => {
-        if ( req.user.role !== role) {
+        if (req.user.role !== role) {
             return res.status(403).json({ message: 'Không có quyền truy cập' });
         }
         next();
