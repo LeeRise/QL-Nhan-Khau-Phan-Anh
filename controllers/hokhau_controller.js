@@ -3,8 +3,14 @@ const db = require('../config/db');
 // GET all
 exports.getAll = (req, res) => {
     db.all("SELECT * FROM Ho_Khau", [], (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json(rows);
+        if (err) return res.status(500).json({ 
+            success: false,
+            message: "Lỗi lấy danh sách hộ khẩu"
+         });
+        res.json({
+            success: true,
+            data: rows
+        });
     });
 };
 
@@ -12,9 +18,18 @@ exports.getAll = (req, res) => {
 exports.getOne = (req, res) => {
     const id = req.params.id;
     db.get("SELECT * FROM Ho_Khau WHERE Ma_HK = ?", [id], (err, row) => {
-        if (err) return res.status(500).json({ error: err.message });
-        if (!row) return res.status(404).json({ error: "Không tìm thấy hộ khẩu" });
-        res.json(row);
+        if (err) return res.status(500).json({ 
+            success: false,
+            message: "Lỗi lấy thông tin hộ khẩu"
+         });
+        if (!row) return res.status(404).json({ 
+            success: false,
+            message: "Không tìm thấy hộ khẩu"
+        });
+        res.json({
+            success: true,
+            data: row
+        });
     });
 };
 

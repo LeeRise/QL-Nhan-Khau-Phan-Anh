@@ -2,17 +2,32 @@ const db = require('../config/db');
 
 exports.getAll = (req, res) => {
   db.all("SELECT * FROM Phan_Anh ORDER BY Ngay_PA DESC", [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
+    if (err) return res.status(500).json({  
+      success: false,
+      message: "Lỗi lấy danh sách phản ánh"
+    });
+    res.json({
+      success: true,
+      data: rows
+    });
   });
 };
 
 exports.getOne = (req, res) => {
   const id = req.params.id;
   db.get("SELECT * FROM Phan_Anh WHERE Ma_PA = ?", [id], (err, row) => {
-    if (err) return res.status(500).json({ error: err.message });
-    if (!row) return res.status(404).json({ error: "Không tìm thấy phản ánh" });
-    res.json(row);
+    if (err) return res.status(500).json({
+      success: false,
+      message: "Lỗi lấy thông tin phản ánh"
+     });
+    if (!row) return res.status(404).json({ 
+      success: false,
+      message: "Không tìm thấy phản ánh"
+    });
+    res.json({
+      success: true,
+      data: row
+    });
   });
 };
 
@@ -56,16 +71,65 @@ exports.remove = (req, res) => {
 
 // Lấy phản ánh của người dùng hiện tại
 exports.getMyReports = (req, res) => {
-  const Ma_CCCD = req.user.cccd; // Giả sử user có CCCD trong token
+  const Ma_CCCD = req.user.cccd;
+
+  if (!Ma_CCCD) {
+    return res.json({ 
+      success: true,
+      needsInfo: true,
+      data: [],
+      message: 'Vui lòng khai báo thông tin nhân khẩu để sử dụng chức năng này'
+    });
+  }
 
   db.all(
     "SELECT * FROM Phan_Anh WHERE Ma_CCCD = ? ORDER BY Ngay_PA DESC",
     [Ma_CCCD],
     (err, rows) => {
-      if (err) return res.status(500).json({ error: err.message });
-      res.json(rows);
+      if (err) {
+        return res.status(500).json({ 
+          success: false,
+          message: 'Lỗi lấy danh sách phản ánh' 
+        });
+      }
+      res.json({
+        success: true,
+        data: rows
+      });
     }
   );
+};
+
+// Tạo phản ánh mới (user)
+exports.createMyReport = (req, res) => {
+  const Ma_CCCD = req.user.cccd;
+  const { Tieu_De, Loai_Van_De } = req.body;
+
+  if (!Ma_CCCD) {
+    return res.status(400).json({ 
+      success: false,
+      needsInfo: true,
+      message: 'Vui lòng khai báo thông tin nhân khẩu trước khi gửi phản ánh'
+    });
+  }
+
+  const sql = `INSERT INTO Phan_Anh (Tieu_De, Loai_Van_De, Ma_CCCD, Trang_Thai)
+               VALUES (?,?,?,?)`;
+  const params = [Tieu_De, Loai_Van_De || null, Ma_CCCD, 'Chưa Tiếp nhận'];
+
+  db.run(sql, params, function (err) {
+    if (err) {
+      return res.status(500).json({ 
+        success: false,
+        message: 'Lỗi khi tạo phản ánh' 
+      });
+    }
+    res.status(201).json({ 
+      success: true,
+      message: 'Tạo phản ánh thành công',
+      Ma_PA: this.lastID 
+    });
+  });
 };
 
 // Phản hồi phản ánh

@@ -1,28 +1,70 @@
 const db = require('../config/db');
 
-// GET all
+// GET all - Chỉ admin thấy tất cả, user chỉ thấy của mình
 exports.getAll = (req, res) => {
     const q = req.query.q;
+    const userRole = req.user?.role;
+    const userCCCD = req.user?.cccd;
+    
     let sql = "SELECT * FROM Nhan_Khau";
     let params = [];
 
-    if (q) {
-        sql += " WHERE Ho_Ten LIKE ?";
-        params.push(`%${q}%`);
+    // Nếu không phải SuperAdmin, chỉ lấy thông tin của chính mình
+    if (userRole !== 'SuperAdmin') {
+        sql += " WHERE Ma_CCCD = ?";
+        params.push(userCCCD);
+        
+        if (q) {
+            sql += " AND Ho_Ten LIKE ?";
+            params.push(`%${q}%`);
+        }
+    } else {
+        // SuperAdmin thấy tất cả
+        if (q) {
+            sql += " WHERE Ho_Ten LIKE ?";
+            params.push(`%${q}%`);
+        }
     }
 
     db.all(sql, params, (err, rows) => {
-        if (err) return res.status(500).json({ error: err.message });
-        res.json(rows);
+        if (err) return res.status(500).json({
+            success: false,
+            message: "Lỗi lấy danh sách nhân khẩu",
+        })
+        res.json({
+            success: true,
+            data: rows
+        });
     });
 };
 
-// GET one
+// GET one - Kiểm tra quyền truy cập
 exports.getOne = (req, res) => {
+    const userRole = req.user?.role;
+    const userCCCD = req.user?.cccd;
+    
     db.get("SELECT * FROM Nhan_Khau WHERE Ma_NK = ?", [req.params.id], (err, row) => {
-        if (err) return res.status(500).json({ error: err.message });
-        if (!row) return res.status(404).json({ error: "Không tìm thấy nhân khẩu" });
-        res.json(row);
+        if (err) return res.status(500).json({ 
+            success: false,
+            message: "Lỗi lấy thông tin nhân khẩu"
+         });
+        if (!row) return res.status(404).json({ 
+            success: false,
+            message: "Không tìm thấy nhân khẩu"
+        });
+        
+        // Kiểm tra quyền: chỉ SuperAdmin hoặc chính user đó
+        if (userRole !== 'SuperAdmin' && row.Ma_CCCD !== userCCCD) {
+            return res.status(403).json({
+                success: false,
+                message: "Bạn không có quyền xem thông tin này"
+            });
+        }
+        
+        res.json({
+            success: true,
+            data: row
+        });
     });
 };
 
@@ -43,7 +85,7 @@ exports.create = (req, res) => {
     });
 };
 
-// UPDATE
+// UPDATE - Chỉ admin hoặc chính user đó mới sửa được (middleware sẽ check)
 exports.update = (req, res) => {
     const allowedFields = [
         "Ma_CCCD", "Ma_HK", "Ho_Ten", "Ngay_Sinh", "Ngay_Cap_CC", 
@@ -53,7 +95,10 @@ exports.update = (req, res) => {
     ];
     
     const fields = Object.keys(req.body).filter(f => allowedFields.includes(f));
-    if (fields.length === 0) return res.status(400).json({ error: "No valid data" });
+    if (fields.length === 0) return res.status(400).json({ 
+        success: false,
+        message: "Không có dữ liệu hợp lệ" 
+    });
 
     const setClause = fields.map(f => `${f} = ?`).join(", ");
     const params = fields.map(f => req.body[f]);
@@ -62,18 +107,36 @@ exports.update = (req, res) => {
     const sql = `UPDATE Nhan_Khau SET ${setClause} WHERE Ma_NK = ?`;
 
     db.run(sql, params, function (err) {
-        if (err) return res.status(500).json({ error: err.message });
-        if (this.changes === 0) return res.status(404).json({ error: "Không tìm thấy nhân khẩu" });
-        res.json({ updated: this.changes });
+        if (err) return res.status(500).json({ 
+            success: false,
+            message: err.message 
+        });
+        if (this.changes === 0) return res.status(404).json({ 
+            success: false,
+            message: "Không tìm thấy nhân khẩu" 
+        });
+        res.json({ 
+            success: true,
+            updated: this.changes 
+        });
     });
 };
 
-// DELETE
+// DELETE - Chỉ admin hoặc chính user đó mới xóa được (middleware sẽ check)
 exports.remove = (req, res) => {
     db.run("DELETE FROM Nhan_Khau WHERE Ma_NK = ?", [req.params.id], function (err) {
-        if (err) return res.status(500).json({ error: err.message });
-        if (this.changes === 0) return res.status(404).json({ error: "Không tìm thấy nhân khẩu" });
-        res.json({ deleted: this.changes });
+        if (err) return res.status(500).json({ 
+            success: false,
+            message: err.message 
+        });
+        if (this.changes === 0) return res.status(404).json({ 
+            success: false,
+            message: "Không tìm thấy nhân khẩu" 
+        });
+        res.json({ 
+            success: true,
+            deleted: this.changes 
+        });
     });
 };
 
