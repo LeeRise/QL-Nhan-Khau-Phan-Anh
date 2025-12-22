@@ -1,0 +1,21 @@
+.user-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.user-sidebar {
+  width: 250px;
+  background: linear-gradient(180deg, #16a085 0%, #1abc9c 100%);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.user-main-content {
+  flex: 1;
+  overflow-y: auto;
+  background: #ecf0f1;
+  padding: 30px;
+}
