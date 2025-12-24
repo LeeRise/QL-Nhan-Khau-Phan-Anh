@@ -21,3 +21,13 @@ export const updateHoKhau = (id, data) => {
 export const deleteHoKhau = (id) => {
   return axiosClient.delete(`${API_URL}/${id}`);
 };
+
+// Lấy danh sách nhân khẩu trong một hộ khẩu cụ thể
+export const getMembersByHoKhau = (id) => {
+  return axiosClient.get(`${API_URL}/${id}/members`);
+};
+
+// Thêm thành viên vào hộ khẩu (quan hệ chủ hộ, con, vợ...)
+export const addMemberToHoKhau = (data) => {
+  return axiosClient.post(`${API_URL}/add-member`, data);
+};

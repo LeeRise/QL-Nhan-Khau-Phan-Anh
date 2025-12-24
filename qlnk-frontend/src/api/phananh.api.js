@@ -28,6 +28,13 @@ export const updatePhanAnh = (id, data) => {
   return axiosClient.put(`${API_URL}/${id}`, data);
 };
 
+// Hàm mới: Admin gửi phản hồi cho người dân
+export const replyPhanAnh = (id, data) => {
+  return axiosClient.put(`${API_URL}/${id}/phan-hoi`, data);
+};
+
 export const deletePhanAnh = (id) => {
   return axiosClient.delete(`${API_URL}/${id}`);
 };
+
+

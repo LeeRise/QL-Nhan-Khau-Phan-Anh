@@ -38,6 +38,15 @@ export default function UserDashboard() {
     <div className="user-page">
       <h1>👤 Thông tin cá nhân</h1>
 
+      {!loading && userInfo && (
+        <div className="info-card" style={{marginBottom: '20px', borderLeft: '4px solid #3498db', background: '#f0f9ff'}}>
+          <h3 style={{color: '#2980b9', borderBottom: 'none', marginBottom: '5px'}}>🔔 Thông báo mới</h3>
+          <p style={{margin: 0, fontSize: '14px'}}>
+            Cán bộ vừa phản hồi kiến nghị của bạn. Vui lòng kiểm tra mục <strong>Phản ánh</strong> để xem dấu tích ✅ và nội dung chi tiết.
+          </p>
+        </div>
+      )}
+      
       {!userInfo ? (
         <div className="info-card">
           <p className="warning-text">
@@ -105,6 +114,7 @@ export default function UserDashboard() {
         </div>
       )}
 
+
       <div className="action-section">
         <h2>⚡ Hành động nhanh</h2>
         <div className="action-grid">
@@ -121,5 +131,7 @@ export default function UserDashboard() {
         </div>
       </div>
     </div>
+
+      
   );
 }

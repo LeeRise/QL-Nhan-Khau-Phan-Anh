@@ -60,14 +60,6 @@ exports.update = (req, res) => {
   });
 };
 
-exports.remove = (req, res) => {
-  const id = req.params.id;
-  db.run("DELETE FROM Phan_Anh WHERE Ma_PA = ?", [id], function (err) {
-    if (err) return res.status(500).json({ error: err.message });
-    if (this.changes === 0) return res.status(404).json({ error: "Không tìm thấy phản ánh" });
-    res.json({ deleted: this.changes });
-  });
-};
 
 // Lấy phản ánh của người dùng hiện tại
 exports.getMyReports = (req, res) => {
@@ -214,4 +206,60 @@ exports.processAndNotify = (req, res) => {
             res.json({ success: true, message: "Đã xử lý và gửi thông báo cho dân thành công" });
         });
     });
+};
+
+
+
+// Lấy tất cả (Admin)
+exports.getAll = (req, res) => {
+  db.all("SELECT * FROM Phan_Anh ORDER BY Ngay_PA DESC", [], (err, rows) => {
+    if (err) return res.status(500).json({ success: false, message: "Lỗi lấy danh sách" });
+    res.json({ success: true, data: rows });
+  });
+};
+
+// Lấy phản ánh của người dân (Có kèm lời nhắn của cán bộ)
+exports.getMyReports = (req, res) => {
+  const Ma_CCCD = req.user.cccd;
+  if (!Ma_CCCD) return res.json({ success: true, needsInfo: true, data: [] });
+
+  // Nối với bảng Phan_Hoi để lấy nội dung trả lời
+  const sql = `
+    SELECT pa.*, ph.Noi_Dung as Phan_Hoi 
+    FROM Phan_Anh pa
+    LEFT JOIN Phan_Hoi ph ON pa.Ma_PA = ph.Ma_PA
+    WHERE pa.Ma_CCCD = ? 
+    ORDER BY pa.Ngay_PA DESC
+  `;
+  db.all(sql, [Ma_CCCD], (err, rows) => {
+    if (err) return res.status(500).json({ success: false, message: 'Lỗi lấy dữ liệu' });
+    res.json({ success: true, data: rows });
+  });
+};
+
+exports.remove = (req, res) => {
+  const id = req.params.id;
+
+  db.serialize(() => {
+    db.run("BEGIN TRANSACTION");
+
+    // 1. Xóa tất cả phản hồi liên quan trong bảng Phan_Hoi trước
+    db.run("DELETE FROM Phan_Hoi WHERE Ma_PA = ?", [id], (err) => {
+      if (err) {
+        db.run("ROLLBACK");
+        return res.status(500).json({ success: false, error: err.message });
+      }
+
+      // 2. Sau đó mới xóa phản ánh trong bảng Phan_Anh
+      db.run("DELETE FROM Phan_Anh WHERE Ma_PA = ?", [id], function(err) {
+        if (err) {
+          db.run("ROLLBACK");
+          return res.status(500).json({ success: false, error: err.message });
+        }
+
+        db.run("COMMIT");
+        res.json({ success: true, message: "Xóa thành công phản ánh và các phản hồi liên quan" });
+      });
+    });
+  });
 };

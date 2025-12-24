@@ -18,11 +18,7 @@ router.get(
 
 // Route lấy thống kê chi tiết phản ánh (Phân loại theo An ninh, Môi trường, Xã hội)
 // Đáp ứng yêu cầu: Ai phản ánh, loại phản ánh, trạng thái và tổng số lượng từng loại.
-router.get(
-    '/phan-anh-chi-tiet', 
-    verifyToken, 
-    checkRole('SuperAdmin'), 
-    thongkeController.getDetailedStats
-);
+
+router.get('/phan-anh-chi-tiet', verifyToken, thongkeController.getDetailedStats);
 
 module.exports = router;

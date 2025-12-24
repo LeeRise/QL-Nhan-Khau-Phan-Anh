@@ -10,7 +10,7 @@ export default function UserPhanAnh() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Tieu_De: "",
-    Loai_Van_De: ""
+    Loai_Van_De: "An ninh" // Đặt mặc định là An ninh
   });
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export default function UserPhanAnh() {
   const resetForm = () => {
     setFormData({
       Tieu_De: "",
-      Loai_Van_De: ""
+      Loai_Van_De: "An ninh"
     });
     setShowForm(false);
   };
@@ -111,11 +111,10 @@ export default function UserPhanAnh() {
                 value={formData.Loai_Van_De}
                 onChange={(e) => setFormData({...formData, Loai_Van_De: e.target.value})}
               >
-                <option value="">-- Chọn loại --</option>
-                <option value="Hạ tầng">Hạ tầng</option>
-                <option value="Vệ sinh">Vệ sinh</option>
-                <option value="An ninh">An ninh</option>
-                <option value="Dịch vụ công">Dịch vụ công</option>
+                {/* Cập nhật 3 loại theo yêu cầu của bạn */}
+                <option value="An ninh">🚨 An ninh</option>
+                <option value="Môi trường">🌳 Môi trường</option>
+                <option value="Xã hội">🤝 Xã hội</option>
                 <option value="Khác">Khác</option>
               </select>
             </div>
@@ -140,8 +139,8 @@ export default function UserPhanAnh() {
               <th>Mã PA</th>
               <th>Tiêu đề</th>
               <th>Loại vấn đề</th>
-              <th>Ngày gửi</th>
               <th>Trạng thái</th>
+              <th>Phản hồi & Thông báo</th> {/* Thêm cột phản hồi */}
             </tr>
           </thead>
           <tbody>
@@ -157,11 +156,19 @@ export default function UserPhanAnh() {
                   <td>{item.Ma_PA}</td>
                   <td>{item.Tieu_De}</td>
                   <td>{item.Loai_Van_De || "Chưa phân loại"}</td>
-                  <td>{new Date(item.Ngay_PA).toLocaleString('vi-VN')}</td>
                   <td>
                     <span className={`badge ${getStatusBadge(item.Trang_Thai)}`}>
+                      {/* Hiển thị dấu tích ✅ nếu đã xử lý xong */}
+                      {item.Trang_Thai === 'Đã xử lý' && '✅ '}
                       {item.Trang_Thai}
                     </span>
+                  </td>
+                  <td style={{color: '#16a085', fontSize: '13px', maxWidth: '300px'}}>
+                    {item.Phan_Hoi ? (
+                       <strong>💬 {item.Phan_Hoi}</strong>
+                    ) : (
+                       <span style={{color: '#95a5a6'}}>Đang chờ xử lý...</span>
+                    )}
                   </td>
                 </tr>
               ))
@@ -176,7 +183,7 @@ export default function UserPhanAnh() {
           <h3 style={{color: '#2e7d32', marginTop: 0}}>💡 Lưu ý</h3>
           <ul style={{margin: 0, paddingLeft: '20px', color: '#2c3e50'}}>
             <li>Phản ánh của bạn chỉ hiển thị cho bạn và quản trị viên</li>
-            <li>Bạn sẽ nhận được thông báo khi phản ánh được xử lý</li>
+            <li>Bạn sẽ nhận được thông báo dấu tích ✅ khi phản ánh được xử lý</li>
             <li>Vui lòng mô tả rõ ràng vấn đề để được hỗ trợ tốt nhất</li>
           </ul>
         </div>
