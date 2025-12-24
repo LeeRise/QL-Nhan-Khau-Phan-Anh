@@ -1,0 +1,95 @@
+### 1. Đăng nhập
+# @name login
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+    "username": "admin",
+    "password": "123456"
+}
+
+### Bổ sung: Admin khai báo nhân khẩu của chính mình (Để có CCCD trong hệ thống)
+POST http://localhost:3001/user/nhankhau/update
+Authorization: Bearer {{token_admin}}
+Content-Type: application/json
+
+{
+    "Ma_CCCD": "000000000001",
+    "Ho_Ten": "Quản Trị Viên",
+    "Ngay_Sinh": "1980-01-01",
+    "Gioi_Tinh": "Nam"
+}
+
+### 2. Lấy danh sách nhân khẩu (Tự động lấy Token từ bước 1)
+GET http://localhost:3001/nhankhau
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlN1cGVyQWRtaW4iLCJpYXQiOjE3NjY1OTM3NTYsImV4cCI6MTc2NjY4MDE1Nn0.C3yHUocLzWPkeF87w1jL2UHhK8qoohlbtdEfdN4hyG0
+
+@token_admin = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IlN1cGVyQWRtaW4iLCJpYXQiOjE3NjY1OTQ0MDEsImV4cCI6MTc2NjY4MDgwMX0.c52IDOnmEneG6335RgrcoogF4txbiq703PaEXCMGaqs
+
+### 3. Admin Phản hồi (Tiếp nhận & Thông báo)
+# Thay {{ma_pa}} bằng ID nhận được ở Bước 4 (ví dụ: 1)
+PUT http://localhost:3001/phananh/3/phan-hoi
+Authorization: Bearer {{token_admin}}
+Content-Type: application/json
+
+{
+    "Phan_Hoi": "Cảm ơn bạn đã phản ánh. Chúng tôi đã tiếp nhận và đang xử lý vấn đề môi trường này.",
+    "Trang_Thai": "Đã tiếp nhận"
+}
+
+#API test for Citizen Registration, Login, and Personal Information Declaration
+
+### 1. Đăng ký tài khoản Người Dân mới
+# @name register_citizen
+POST http://localhost:3001/auth/register
+Content-Type: application/json
+
+{
+    "username": "Test01",
+    "password": "123456"
+}
+
+### 2. Đăng nhập lấy Token Người Dân
+# @name login_citizen
+POST http://localhost:3001/auth/login
+Content-Type: application/json
+
+{
+    "username": "Test01",
+    "password": "123456"
+}
+
+### Lấy Token từ kết quả đăng nhập
+@token_citizen = {{login_citizen.response.body.token}}
+
+### 3. Khai báo thông tin nhân khẩu (Để có CCCD)
+# Hành động này liên kết tài khoản với bảng Nhan_Khau
+POST http://localhost:3001/user/nhankhau/update
+Authorization: Bearer {{token_citizen}}
+Content-Type: application/json
+
+{
+    "Ma_CCCD": "00123456789",
+    "Ho_Ten": "Nguyễn Văn A",
+    "Ngay_Sinh": "2005-10-20",
+    "Gioi_Tinh": "Nam",
+    "DC_TT": "123 Đường ABC, Hà Nội"
+}
+
+### 4. Gửi phản ánh mới
+# @name create_report
+POST http://localhost:3001/phananh/my
+Authorization: Bearer {{token_citizen}}
+Content-Type: application/json
+
+{
+    "Tieu_De": "Gà vl",
+    "Loai_Van_De": "Môi trường"
+}
+
+### Lưu ID của phản ánh vừa tạo (ví dụ: 1)
+@ma_pa = {{create_report.response.body.Ma_PA}}
+
+### 5. Xem lại phản ánh của chính mình
+GET http://localhost:3001/phananh/my   
+Authorization: Bearer {{token_citizen}}   

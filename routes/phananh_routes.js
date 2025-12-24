@@ -15,5 +15,7 @@ router.post('/', verifyToken, checkRole("SuperAdmin"), m.validatePhanAnh, contro
 router.put('/:id', verifyToken, checkRole("SuperAdmin"), controller.update);
 router.delete('/:id', verifyToken, checkRole("SuperAdmin"), controller.remove);
 router.put('/:id/phan-hoi', verifyToken, checkRole("SuperAdmin"), m.checkPAExists, m.validatePhanHoi, controller.reply);
+router.post('/process', verifyToken, checkRole(['SuperAdmin', 'Cán bộ Xử lý PA']), controller.processAndNotify);
+router.post('/merge', verifyToken, checkRole("SuperAdmin"), controller.mergeReports);
 
 module.exports = router;

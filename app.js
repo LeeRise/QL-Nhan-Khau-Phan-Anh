@@ -10,6 +10,7 @@ const hokhauRoutes= require('./routes/hokhau_routes');
 const phananhRoutes= require('./routes/phananh_routes');
 const biendongRoutes= require('./routes/biendong_routes');
 const userNhankhauRoutes= require('./routes/user_nhankhau_routes');
+const thongkeRoutes = require('./routes/thongke_routes');
 
 app.get('/', (req, res) => {
     res.send('API is running...');
@@ -20,7 +21,7 @@ app.use('/hokhau', hokhauRoutes);
 app.use('/phananh', phananhRoutes);
 app.use('/biendong', biendongRoutes);
 app.use('/user/nhankhau', userNhankhauRoutes);
-
+app.use('/thongke', thongkeRoutes);
 
 const authRoutes = require("./routes/auth");
 app.use("/auth", authRoutes);

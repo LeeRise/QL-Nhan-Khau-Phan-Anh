@@ -1,9 +1,11 @@
 const db = require('../config/db');
 
 // User cập nhật thông tin nhân khẩu của mình
+// controllers/user_nhankhau_controller.js
+
 exports.updateMyNhanKhau = (req, res) => {
-    const currentCCCD = req.user.cccd;
     const userId = req.user.id;
+    const currentCCCDInToken = req.user.cccd;
 
     const {
         Ma_CCCD, Ho_Ten, Ngay_Sinh, Ngay_Cap_CC, Noi_Cap,
@@ -11,137 +13,49 @@ exports.updateMyNhanKhau = (req, res) => {
         TT_Hon_Nhan, Bi_Danh, Nghe_Nghiep, Noi_Lam_Viec
     } = req.body;
 
-    // Nếu chưa có CCCD trong tài khoản, yêu cầu nhập CCCD
-    if (!currentCCCD && !Ma_CCCD) {
-        return res.status(400).json({
-            success: false,
-            message: 'Vui lòng nhập số CCCD'
-        });
+    if (!currentCCCDInToken && !Ma_CCCD) {
+        return res.status(400).json({ success: false, message: 'Vui lòng nhập số CCCD' });
     }
 
-    // Validate CCCD format
-    if (Ma_CCCD && !/^[0-9]{9,12}$/.test(Ma_CCCD.trim())) {
-        return res.status(400).json({
-            success: false,
-            message: 'CCCD phải là 9-12 chữ số'
-        });
-    }
+    const finalCCCD = Ma_CCCD ? Ma_CCCD.trim() : currentCCCDInToken;
 
-    const finalCCCD = Ma_CCCD ? Ma_CCCD.trim() : currentCCCD;
-
-    // Kiểm tra CCCD đã được sử dụng bởi người khác chưa
+    // 1. Kiểm tra CCCD có bị trùng với tài khoản khác không
     db.get('SELECT Ma_ND FROM Nguoi_Dung WHERE Ma_CCCD = ? AND Ma_ND != ?', [finalCCCD, userId], (err, otherUser) => {
-        if (err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Lỗi kiểm tra dữ liệu'
-            });
-        }
+        if (err) return res.status(500).json({ success: false, message: 'Lỗi kiểm tra dữ liệu' });
+        if (otherUser) return res.status(400).json({ success: false, message: 'Số CCCD này đã được sử dụng bởi tài khoản khác' });
 
-        if (otherUser) {
-            return res.status(400).json({
-                success: false,
-                message: 'Số CCCD này đã được sử dụng bởi tài khoản khác'
-            });
-        }
+        // 2. Xử lý bảng Nhan_Khau TRƯỚC
+        db.get('SELECT * FROM Nhan_Khau WHERE Ma_CCCD = ?', [finalCCCD], (err, existingNK) => {
+            if (err) return res.status(500).json({ success: false, message: 'Lỗi truy vấn nhân khẩu' });
 
-        // Cập nhật CCCD vào bảng Nguoi_Dung nếu chưa có
-        const updateCCCD = (callback) => {
-            if (!currentCCCD && Ma_CCCD) {
-                db.run('UPDATE Nguoi_Dung SET Ma_CCCD = ? WHERE Ma_ND = ?', [finalCCCD, userId], (err) => {
-                    if (err) {
-                        console.error('Error updating CCCD:', err);
-                        return callback(err);
-                    }
-                    callback(null);
-                });
+            const runNhanKhauQuery = (query, params, callback) => {
+                db.run(query, params, function(err) { callback(err); });
+            };
+
+            let nkQuery = "";
+            let nkParams = [];
+
+            if (existingNK) {
+                nkQuery = `UPDATE Nhan_Khau SET Ho_Ten=?, Ngay_Sinh=?, Ngay_Cap_CC=?, Noi_Cap=?, DC_TT=?, Gioi_Tinh=?, Email=?, Que_Quan=?, Noi_Sinh=?, TT_Hon_Nhan=?, Bi_Danh=?, Nghe_Nghiep=?, Noi_Lam_Viec=? WHERE Ma_CCCD=?`;
+                nkParams = [Ho_Ten, Ngay_Sinh, Ngay_Cap_CC||null, Noi_Cap||null, DC_TT||null, Gioi_Tinh, Email||null, Que_Quan||null, Noi_Sinh||null, TT_Hon_Nhan||null, Bi_Danh||null, Nghe_Nghiep||null, Noi_Lam_Viec||null, finalCCCD];
             } else {
-                callback(null);
-            }
-        };
-
-        updateCCCD((err) => {
-            if (err) {
-                return res.status(500).json({
-                    success: false,
-                    message: 'Lỗi cập nhật CCCD vào tài khoản'
-                });
+                nkQuery = `INSERT INTO Nhan_Khau (Ma_CCCD, Ho_Ten, Ngay_Sinh, Ngay_Cap_CC, Noi_Cap, DC_TT, Gioi_Tinh, Email, Que_Quan, Noi_Sinh, TT_Hon_Nhan, Bi_Danh, Nghe_Nghiep, Noi_Lam_Viec, Trang_Thai) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,'Đang sống')`;
+                nkParams = [finalCCCD, Ho_Ten, Ngay_Sinh, Ngay_Cap_CC||null, Noi_Cap||null, DC_TT||null, Gioi_Tinh, Email||null, Que_Quan||null, Noi_Sinh||null, TT_Hon_Nhan||null, Bi_Danh||null, Nghe_Nghiep||null, Noi_Lam_Viec||null];
             }
 
-            // Kiểm tra xem nhân khẩu đã tồn tại chưa
-            db.get('SELECT * FROM Nhan_Khau WHERE Ma_CCCD = ?', [finalCCCD], (err, existing) => {
-        if (err) {
-            return res.status(500).json({
-                success: false,
-                message: 'Lỗi kiểm tra dữ liệu'
-            });
-        }
+            runNhanKhauQuery(nkQuery, nkParams, (err) => {
+                if (err) return res.status(500).json({ success: false, message: 'Lỗi cập nhật bảng Nhân Khẩu: ' + err.message });
 
-        if (existing) {
-            // Update
-            const sql = `
-                UPDATE Nhan_Khau 
-                SET Ho_Ten = ?, Ngay_Sinh = ?, Ngay_Cap_CC = ?, Noi_Cap = ?,
-                    DC_TT = ?, Gioi_Tinh = ?, Email = ?, Que_Quan = ?, Noi_Sinh = ?,
-                    TT_Hon_Nhan = ?, Bi_Danh = ?, Nghe_Nghiep = ?, Noi_Lam_Viec = ?
-                WHERE Ma_CCCD = ?
-            `;
-
-            const params = [
-                Ho_Ten, Ngay_Sinh, Ngay_Cap_CC || null, Noi_Cap || null,
-                DC_TT || null, Gioi_Tinh, Email || null, Que_Quan || null, Noi_Sinh || null,
-                TT_Hon_Nhan || null, Bi_Danh || null, Nghe_Nghiep || null, Noi_Lam_Viec || null,
-                finalCCCD
-            ];
-
-            db.run(sql, params, function(err) {
-                if (err) {
-                    return res.status(500).json({
-                        success: false,
-                        message: 'Lỗi cập nhật thông tin'
-                    });
-                }
-
-                res.json({
-                    success: true,
-                    message: 'Cập nhật thông tin thành công'
+                // 3. Sau khi Nhan_Khau đã có dữ liệu, mới cập nhật Nguoi_Dung (Khóa ngoại sẽ hợp lệ)
+                db.run('UPDATE Nguoi_Dung SET Ma_CCCD = ? WHERE Ma_ND = ?', [finalCCCD, userId], (err) => {
+                    if (err) return res.status(500).json({ success: false, message: 'Lỗi liên kết CCCD vào tài khoản' });
+                    
+                    res.json({ success: true, message: 'Khai báo thông tin thành công' });
                 });
-            });
-        } else {
-            // Insert new
-            const sql = `
-                INSERT INTO Nhan_Khau 
-                (Ma_CCCD, Ho_Ten, Ngay_Sinh, Ngay_Cap_CC, Noi_Cap, DC_TT, Gioi_Tinh, 
-                 Email, Que_Quan, Noi_Sinh, TT_Hon_Nhan, Bi_Danh, Nghe_Nghiep, Noi_Lam_Viec, Trang_Thai)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'Đang sống')
-            `;
-
-            const params = [
-                finalCCCD, Ho_Ten, Ngay_Sinh, Ngay_Cap_CC || null, Noi_Cap || null,
-                DC_TT || null, Gioi_Tinh, Email || null, Que_Quan || null, Noi_Sinh || null,
-                TT_Hon_Nhan || null, Bi_Danh || null, Nghe_Nghiep || null, Noi_Lam_Viec || null
-            ];
-
-            db.run(sql, params, function(err) {
-                if (err) {
-                    return res.status(500).json({
-                        success: false,
-                        message: 'Lỗi tạo thông tin: ' + err.message
-                    });
-                }
-
-                res.status(201).json({
-                    success: true,
-                    message: 'Khai báo thông tin thành công',
-                    Ma_NK: this.lastID
-                });
-            });
-        }
             });
         });
     });
 };
-
 // Kiểm tra user đã khai báo thông tin chưa
 exports.checkMyNhanKhau = (req, res) => {
     const userId = req.user.id;

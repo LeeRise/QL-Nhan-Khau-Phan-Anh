@@ -133,33 +133,85 @@ exports.createMyReport = (req, res) => {
 };
 
 // Phản hồi phản ánh
+
 exports.reply = (req, res) => {
-  const id = req.params.id;
+  const Ma_PA = req.params.id;
   const { Phan_Hoi, Trang_Thai } = req.body;
+  const Ma_CCCD_XL = req.user.cccd; // Lấy CCCD của cán bộ từ Token
 
-  const fields = [];
-  const params = [];
-
-  if (Phan_Hoi) {
-    fields.push("Phan_Hoi = ?");
-    params.push(Phan_Hoi);
+  if (!Phan_Hoi) {
+    return res.status(400).json({ success: false, message: "Nội dung phản hồi không được trống" });
   }
 
-  if (Trang_Thai) {
-    fields.push("Trang_Thai = ?");
-    params.push(Trang_Thai);
-  }
+  // Sử dụng serialize để đảm bảo hai hành động được thực hiện tuần tự
+  db.serialize(() => {
+    db.run("BEGIN TRANSACTION");
 
-  if (fields.length === 0) {
-    return res.status(400).json({ error: "Không có dữ liệu để cập nhật" });
-  }
+    // 1. Chèn nội dung phản hồi vào bảng Phan_Hoi
+    const sqlInsertReply = `
+      INSERT INTO Phan_Hoi (Ma_PA, Noi_Dung, Ma_CCCD_XL)
+      VALUES (?, ?, ?)
+    `;
+    
+    db.run(sqlInsertReply, [Ma_PA, Phan_Hoi, Ma_CCCD_XL], function(err) {
+      if (err) {
+        db.run("ROLLBACK");
+        return res.status(500).json({ success: false, message: "Lỗi lưu phản hồi: " + err.message });
+      }
 
-  params.push(id);
-  const sql = `UPDATE Phan_Anh SET ${fields.join(", ")} WHERE Ma_PA = ?`;
+      // 2. Cập nhật trạng thái của phản ánh gốc trong bảng Phan_Anh
+      const sqlUpdatePA = `UPDATE Phan_Anh SET Trang_Thai = ? WHERE Ma_PA = ?`;
+      
+      db.run(sqlUpdatePA, [Trang_Thai || 'Đã xử lý', Ma_PA], function(err) {
+        if (err) {
+          db.run("ROLLBACK");
+          return res.status(500).json({ success: false, message: "Lỗi cập nhật trạng thái" });
+        }
 
-  db.run(sql, params, function (err) {
-    if (err) return res.status(500).json({ error: err.message });
-    if (this.changes === 0) return res.status(404).json({ error: "Không tìm thấy phản ánh" });
-    res.json({ message: "Phản hồi thành công", updated: this.changes });
+        db.run("COMMIT");
+        res.json({ 
+          success: true, 
+          message: "Phản hồi và cập nhật trạng thái thành công",
+          Ma_PH: this.lastID 
+        });
+      });
+    });
   });
+};
+
+exports.mergeReports = (req, res) => {
+    const { maPAGoc, maPADuocGop } = req.body;
+    db.serialize(() => {
+        db.run("BEGIN TRANSACTION");
+        db.run("INSERT INTO Gop_PA (Ma_PA_Goc, Ma_PA_Duoc_Gop) VALUES (?, ?)", [maPAGoc, maPADuocGop]);
+        db.run("UPDATE Phan_Anh SET Trang_Thai = 'Đã gộp' WHERE Ma_PA = ?", [maPADuocGop]);
+        db.run("COMMIT", (err) => {
+            if (err) return res.status(500).json({ success: false });
+            res.json({ success: true, message: "Đã gộp phản ánh trùng lặp" });
+        });
+    });
+};
+
+// Khi cán bộ tiếp nhận/xử lý và gửi thông báo cho dân
+exports.processAndNotify = (req, res) => {
+    const { Ma_PA, Noi_Dung_Phan_Hoi, Trang_Thai_Moi } = req.body;
+    const Ma_CCCD_XL = req.user.cccd; // CCCD của cán bộ đang đăng nhập
+
+    db.serialize(() => {
+        db.run("BEGIN TRANSACTION");
+
+        // 1. Cập nhật trạng thái (Tiếp nhận -> Đã xử lý)
+        db.run("UPDATE Phan_Anh SET Trang_Thai = ? WHERE Ma_PA = ?", [Trang_Thai_Moi, Ma_PA]);
+
+        // 2. Lưu nội dung phản hồi (Đây chính là thông báo cho dân)
+        db.run(
+            "INSERT INTO Phan_Hoi (Ma_PA, Noi_Dung, Ma_CCCD_XL) VALUES (?, ?, ?)",
+            [Ma_PA, Noi_Dung_Phan_Hoi, Ma_CCCD_XL]
+        );
+
+        db.run("COMMIT", (err) => {
+            if (err) return res.status(500).json({ success: false });
+            res.json({ success: true, message: "Đã xử lý và gửi thông báo cho dân thành công" });
+        });
+    });
 };
