@@ -8,6 +8,7 @@ export default function AdminPhanAnh() {
   const [nhankhauList, setNhankhauList] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [expandedRow, setExpandedRow] = useState(null);
   const [formData, setFormData] = useState({
     Tieu_De: "",
     Loai_Van_De: "",
@@ -183,6 +184,7 @@ export default function AdminPhanAnh() {
               <th>Loại vấn đề</th>
               <th>Ngày phản ánh</th>
               <th>Người phản ánh</th>
+              <th>Hình ảnh</th>
               <th>Trạng thái</th>
               <th>Thao tác</th>
             </tr>
@@ -190,26 +192,71 @@ export default function AdminPhanAnh() {
           <tbody>
             {data.length === 0 ? (
               <tr>
-                <td colSpan="7" style={{textAlign: 'center'}}>Chưa có dữ liệu</td>
+                <td colSpan="8" style={{textAlign: 'center'}}>Chưa có dữ liệu</td>
               </tr>
             ) : (
               data.map((item) => (
-                <tr key={item.Ma_PA}>
-                  <td>{item.Ma_PA}</td>
-                  <td>{item.Tieu_De}</td>
-                  <td>{item.Loai_Van_De || "Chưa xác định"}</td>
-                  <td>{new Date(item.Ngay_PA).toLocaleString('vi-VN')}</td>
-                  <td>{item.Ma_CCCD || "Ẩn danh"}</td>
-                  <td>
-                    <span className={`badge ${getStatusBadge(item.Trang_Thai)}`}>
-                      {item.Trang_Thai}
-                    </span>
-                  </td>
-                  <td>
-                    <button onClick={() => handleEdit(item)} className="btn-icon">✏️</button>
-                    <button onClick={() => handleDelete(item.Ma_PA)} className="btn-icon">🗑️</button>
-                  </td>
-                </tr>
+                <>
+                  <tr key={item.Ma_PA}>
+                    <td>{item.Ma_PA}</td>
+                    <td>
+                      {item.Tieu_De}
+                      {item.Phan_Hoi && (
+                        <button 
+                          onClick={() => setExpandedRow(expandedRow === item.Ma_PA ? null : item.Ma_PA)}
+                          style={{
+                            marginLeft: '10px',
+                            padding: '2px 8px',
+                            fontSize: '12px',
+                            background: '#3498db',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          {expandedRow === item.Ma_PA ? '▲ Ẩn' : '▼ Chi tiết'}
+                        </button>
+                      )}
+                    </td>
+                    <td>{item.Loai_Van_De || "Chưa xác định"}</td>
+                    <td>{new Date(item.Ngay_PA).toLocaleString('vi-VN')}</td>
+                    <td>{item.Ma_CCCD || "Ẩn danh"}</td>
+                    <td>
+                      {item.Hinh_Anh ? (
+                        <a 
+                          href={`http://localhost:3001${item.Hinh_Anh}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          style={{color: '#3498db', textDecoration: 'none'}}
+                        >
+                          🖼️ Xem ảnh
+                        </a>
+                      ) : (
+                        <span style={{color: '#95a5a6'}}>Không có</span>
+                      )}
+                    </td>
+                    <td>
+                      <span className={`badge ${getStatusBadge(item.Trang_Thai)}`}>
+                        {item.Trang_Thai}
+                      </span>
+                    </td>
+                    <td>
+                      <button onClick={() => handleEdit(item)} className="btn-icon">✏️</button>
+                      <button onClick={() => handleDelete(item.Ma_PA)} className="btn-icon">🗑️</button>
+                    </td>
+                  </tr>
+                  {expandedRow === item.Ma_PA && item.Phan_Hoi && (
+                    <tr>
+                      <td colSpan="8" style={{background: '#f8f9fa', padding: '20px'}}>
+                        <div style={{background: 'white', padding: '15px', borderRadius: '8px', border: '1px solid #ddd'}}>
+                          <h4 style={{marginTop: 0, color: '#2c3e50'}}>💬 Phản hồi từ quản trị viên:</h4>
+                          <p style={{margin: 0, color: '#34495e', lineHeight: '1.6'}}>{item.Phan_Hoi}</p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </>
               ))
             )}
           </tbody>

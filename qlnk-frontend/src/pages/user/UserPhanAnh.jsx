@@ -7,11 +7,14 @@ export default function UserPhanAnh() {
   const [data, setData] = useState([]);
   const [needsInfo, setNeedsInfo] = useState(false);
   const [showForm, setShowForm] = useState(false);
+  const [expandedRow, setExpandedRow] = useState(null);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     Tieu_De: "",
     Loai_Van_De: ""
   });
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     loadData();
@@ -35,7 +38,14 @@ export default function UserPhanAnh() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await createMyPhanAnh(formData);
+      const submitData = new FormData();
+      submitData.append('Tieu_De', formData.Tieu_De);
+      submitData.append('Loai_Van_De', formData.Loai_Van_De);
+      if (selectedImage) {
+        submitData.append('image', selectedImage);
+      }
+      
+      await createMyPhanAnh(submitData);
       alert("Gửi phản ánh thành công!");
       resetForm();
       loadData();
@@ -49,7 +59,34 @@ export default function UserPhanAnh() {
       Tieu_De: "",
       Loai_Van_De: ""
     });
+    setSelectedImage(null);
+    setImagePreview(null);
     setShowForm(false);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File quá lớn! Vui lòng chọn ảnh dưới 5MB');
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        alert('Vui lòng chọn file ảnh!');
+        return;
+      }
+      setSelectedImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setSelectedImage(null);
+    setImagePreview(null);
   };
 
   const getStatusBadge = (status) => {
@@ -120,6 +157,49 @@ export default function UserPhanAnh() {
               </select>
             </div>
 
+            <div className="form-group">
+              <label>Hình ảnh minh họa (tùy chọn)</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageChange}
+                style={{padding: '8px'}}
+              />
+              <small style={{color: '#7f8c8d', display: 'block', marginTop: '5px'}}>
+                Chấp nhận file ảnh, tối đa 5MB
+              </small>
+              {imagePreview && (
+                <div style={{marginTop: '15px', position: 'relative'}}>
+                  <img 
+                    src={imagePreview} 
+                    alt="Preview" 
+                    style={{
+                      maxWidth: '300px',
+                      maxHeight: '300px',
+                      borderRadius: '8px',
+                      border: '2px solid #ddd',
+                      display: 'block'
+                    }}
+                  />
+                  <button 
+                    type="button" 
+                    onClick={removeImage}
+                    style={{
+                      marginTop: '10px',
+                      padding: '5px 15px',
+                      background: '#e74c3c',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    ❌ Xóa ảnh
+                  </button>
+                </div>
+              )}
+            </div>
+
             <div className="form-actions">
               <button type="submit" className="btn-primary">
                 📤 Gửi phản ánh
@@ -141,29 +221,75 @@ export default function UserPhanAnh() {
               <th>Tiêu đề</th>
               <th>Loại vấn đề</th>
               <th>Ngày gửi</th>
+              <th>Hình ảnh</th>
               <th>Trạng thái</th>
             </tr>
           </thead>
           <tbody>
             {data.length === 0 ? (
               <tr>
-                <td colSpan="5" style={{textAlign: 'center', padding: '30px'}}>
+                <td colSpan="6" style={{textAlign: 'center', padding: '30px'}}>
                   Bạn chưa có phản ánh nào
                 </td>
               </tr>
             ) : (
               data.map((item) => (
-                <tr key={item.Ma_PA}>
-                  <td>{item.Ma_PA}</td>
-                  <td>{item.Tieu_De}</td>
-                  <td>{item.Loai_Van_De || "Chưa phân loại"}</td>
-                  <td>{new Date(item.Ngay_PA).toLocaleString('vi-VN')}</td>
-                  <td>
-                    <span className={`badge ${getStatusBadge(item.Trang_Thai)}`}>
-                      {item.Trang_Thai}
-                    </span>
-                  </td>
-                </tr>
+                <>
+                  <tr key={item.Ma_PA}>
+                    <td>{item.Ma_PA}</td>
+                    <td>
+                      {item.Tieu_De}
+                      {item.Phan_Hoi && (
+                        <button 
+                          onClick={() => setExpandedRow(expandedRow === item.Ma_PA ? null : item.Ma_PA)}
+                          style={{
+                            marginLeft: '10px',
+                            padding: '2px 8px',
+                            fontSize: '12px',
+                            background: '#3498db',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          {expandedRow === item.Ma_PA ? '▲ Ẩn' : '▼ Xem phản hồi'}
+                        </button>
+                      )}
+                    </td>
+                    <td>{item.Loai_Van_De || "Chưa phân loại"}</td>
+                    <td>{new Date(item.Ngay_PA).toLocaleString('vi-VN')}</td>
+                    <td>
+                      {item.Hinh_Anh ? (
+                        <a 
+                          href={`http://localhost:3001${item.Hinh_Anh}`} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          style={{color: '#3498db', textDecoration: 'none'}}
+                        >
+                          🖼️ Xem ảnh
+                        </a>
+                      ) : (
+                        <span style={{color: '#95a5a6'}}>Không có</span>
+                      )}
+                    </td>
+                    <td>
+                      <span className={`badge ${getStatusBadge(item.Trang_Thai)}`}>
+                        {item.Trang_Thai}
+                      </span>
+                    </td>
+                  </tr>
+                  {expandedRow === item.Ma_PA && item.Phan_Hoi && (
+                    <tr>
+                      <td colSpan="6" style={{background: '#e8f5e9', padding: '20px'}}>
+                        <div style={{background: 'white', padding: '15px', borderRadius: '8px', border: '2px solid #2e7d32'}}>
+                          <h4 style={{marginTop: 0, color: '#2e7d32'}}>💬 Phản hồi từ quản trị viên:</h4>
+                          <p style={{margin: 0, color: '#2c3e50', lineHeight: '1.6'}}>{item.Phan_Hoi}</p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
+                </>
               ))
             )}
           </tbody>

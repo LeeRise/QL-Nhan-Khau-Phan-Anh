@@ -8,6 +8,14 @@ export const getMyPhanAnh = () => {
 };
 
 export const createMyPhanAnh = (data) => {
+  // If data contains a file, send as FormData
+  if (data instanceof FormData) {
+    return axiosClient.post(`${API_URL}/my`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  }
   return axiosClient.post(`${API_URL}/my`, data);
 };
 
