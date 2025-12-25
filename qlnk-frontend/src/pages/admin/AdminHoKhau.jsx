@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllHoKhau, createHoKhau, updateHoKhau, deleteHoKhau } from "../../api/hokhau.api";
 import { getAllNhanKhau } from "../../api/nhankhau.api";
+import { addMemberToHoKhau } from "../../api/hokhau.api";
 import "./AdminHoKhau.css";
 
 export default function AdminHoKhau() {
@@ -14,6 +15,26 @@ export default function AdminHoKhau() {
     CCCD_Chu_Ho: "",
     Tinh_Trang: "Tồn tại"
   });
+  const [showAddMember, setShowAddMember] = useState(false);
+  const [selectedHK, setSelectedHK] = useState(null);
+  const [targetNK, setTargetNK] = useState("");
+
+  const handleOpenAddMember = (hk) => {
+    setSelectedHK(hk);
+    setShowAddMember(true);
+  };
+
+  const handleAddMemberSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await addMemberToHoKhau({ Ma_HK: selectedHK.Ma_HK, Ma_NK: targetNK });
+      alert("Đã thêm thành viên vào hộ khẩu thành công!");
+      setShowAddMember(false);
+      loadData(); // Tải lại danh sách hộ khẩu
+    } catch (error) {
+      alert("Lỗi: " + (error.response?.data?.message || "Không thể thêm thành viên"));
+    }
+  };
 
   useEffect(() => {
     loadData();
@@ -160,42 +181,56 @@ export default function AdminHoKhau() {
         </div>
       )}
 
+      {showAddMember && (
+        <div className="form-card" style={{borderLeft: '4px solid #f1c40f'}}>
+          <h2>➕ Thêm thành viên vào hộ: {selectedHK?.Ma_HK}</h2>
+          <p>Địa chỉ: {selectedHK?.Dia_Chi}</p>
+          <form onSubmit={handleAddMemberSubmit}>
+            <div className="form-group">
+              <label>Chọn nhân khẩu muốn thêm:</label>
+              <select required value={targetNK} onChange={(e) => setTargetNK(e.target.value)}>
+                <option value="">-- Chọn người --</option>
+                {nhankhauList.map(nk => (
+                  <option key={nk.Ma_NK} value={nk.Ma_NK}>
+                    {nk.Ho_Ten} ({nk.Ma_CCCD || "Chưa có CCCD"})
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-actions">
+              <button type="submit" className="btn-primary">💾 Xác nhận thêm</button>
+              <button type="button" onClick={() => setShowAddMember(false)} className="btn-secondary">Hủy</button>
+            </div>
+          </form>
+        </div>
+      )}
+
       <div className="table-card">
         <table>
           <thead>
             <tr>
               <th>Mã HK</th>
               <th>Địa chỉ</th>
-              <th>Ngày lập</th>
               <th>Chủ hộ</th>
               <th>Tình trạng</th>
               <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
-            {data.length === 0 ? (
-              <tr>
-                <td colSpan="6" style={{textAlign: 'center'}}>Chưa có dữ liệu</td>
+            {data.map((item) => (
+              <tr key={item.Ma_HK}>
+                <td>{item.Ma_HK}</td>
+                <td>{item.Dia_Chi}</td>
+                <td>{item.CCCD_Chu_Ho || "Chưa có"}</td>
+                <td><span className={`badge ${item.Tinh_Trang === 'Tồn tại' ? 'badge-success' : 'badge-danger'}`}>{item.Tinh_Trang}</span></td>
+                <td>
+                  {/* NÚT THÊM THÀNH VIÊN MỚI */}
+                  <button onClick={() => handleOpenAddMember(item)} className="btn-icon" title="Thêm thành viên">👤+</button>
+                  <button onClick={() => handleEdit(item)} className="btn-icon">✏️</button>
+                  <button onClick={() => handleDelete(item.Ma_HK)} className="btn-icon">🗑️</button>
+                </td>
               </tr>
-            ) : (
-              data.map((item) => (
-                <tr key={item.Ma_HK}>
-                  <td>{item.Ma_HK}</td>
-                  <td>{item.Dia_Chi}</td>
-                  <td>{item.Ngay_Lap}</td>
-                  <td>{item.CCCD_Chu_Ho || "Chưa có"}</td>
-                  <td>
-                    <span className={`badge ${item.Tinh_Trang === 'Tồn tại' ? 'badge-success' : 'badge-danger'}`}>
-                      {item.Tinh_Trang}
-                    </span>
-                  </td>
-                  <td>
-                    <button onClick={() => handleEdit(item)} className="btn-icon">✏️</button>
-                    <button onClick={() => handleDelete(item.Ma_HK)} className="btn-icon">🗑️</button>
-                  </td>
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
       </div>

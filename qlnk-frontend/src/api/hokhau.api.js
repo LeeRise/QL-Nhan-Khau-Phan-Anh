@@ -27,7 +27,18 @@ export const getMembersByHoKhau = (id) => {
   return axiosClient.get(`${API_URL}/${id}/members`);
 };
 
-// Thêm thành viên vào hộ khẩu (quan hệ chủ hộ, con, vợ...)
+
 export const addMemberToHoKhau = (data) => {
+  // data gồm { Ma_NK, Ma_HK }
   return axiosClient.post(`${API_URL}/add-member`, data);
+};
+
+// User: Gửi yêu cầu muốn nhập vào một hộ khẩu nào đó
+export const requestJoinHoKhau = (data) => {
+  // Gửi dưới dạng một loại phản ánh đặc biệt để Admin duyệt
+  return axiosClient.post(`/phananh/my`, {
+    Tieu_De: `Yêu cầu nhập khẩu vào hộ khẩu mã: ${data.Ma_HK}`,
+    Loai_Van_De: "Yêu cầu nhập khẩu",
+    Noi_Dung: `Tôi muốn nhập khẩu vào hộ khẩu tại địa chỉ: ${data.Dia_Chi}`
+  });
 };
