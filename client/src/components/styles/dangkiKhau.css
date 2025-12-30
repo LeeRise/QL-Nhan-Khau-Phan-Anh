@@ -1,0 +1,218 @@
+
+/* Tổng thể container */
+.register-container1 {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #f4f7f9;
+    border-radius: 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* Tiêu đề chính */
+.header-box1 {
+    text-align: center;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #007bff;
+    padding-bottom: 10px;
+}
+
+.header-box1 h2 {
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+/* Thông báo lỗi */
+.error-message1 {
+    background-color: #fff3f3;
+    color: #d9534f;
+    padding: 15px;
+    border-left: 5px solid #d9534f;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+/* Các tiêu đề mục I, II */
+h3 {
+    color: #0056b3;
+    background: #e7f1ff;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    margin-top: 30px;
+}
+
+/* Layout cho thông tin hộ khẩu (Chia 3 cột) */
+.register-container1 form > div:first-of-type > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+
+/* Thẻ thành viên */
+.member-card1 {
+    background: #ffffff;
+    border: 1px solid #e0e6ed;
+    border-radius: 12px;
+    padding: 25px;
+    margin-bottom: 25px;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.member-card1:hover {
+    box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+    border-color: #007bff;
+}
+
+.member-card1 h4 {
+    margin-top: 0;
+    color: #444;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+/* Layout lưới cho các trường trong Member Card (Chia 3 cột) */
+.member-card1 > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px 25px;
+}
+
+/* Nhóm input */
+.input-group1 {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 5px;
+}
+
+.input-group1 label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.input-group1 input, 
+.input-group1 select {
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.input-group1 input:focus, 
+.input-group1 select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+}
+
+/* Ô input chứa nút kiểm tra */
+.input-conten1 {
+    display: flex;
+    gap: 8px;
+}
+
+.input-conten1 input {
+    flex: 1;
+}
+
+.input-conten1 button {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 0 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+.input-conten1 button:hover {
+    background-color: #218838;
+}
+
+/* Hàng nút bấm dưới cùng */
+.btn-primary1 {
+    padding: 12px 25px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    margin-top: 20px;
+}
+
+/* Nút Thêm thành viên */
+button.btn-primary1:first-child {
+    background-color: #6c757d;
+    color: white;
+    margin-right: 15px;
+}
+
+button.btn-primary1:first-child:hover {
+    background-color: #5a6268;
+}
+
+/* Nút Đăng ký chính */
+button.btn-primary1[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+}
+
+button.btn-primary1[type="submit"]:hover {
+    background-color: #0069d9;
+    transform: translateY(-1px);
+}
+
+button.btn-primary1:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+.member-controls1 button{
+    border-radius: red;
+    background-color: red;
+    color: white;
+    margin-left: 10px;
+}
+.member-controls1{
+    display: inline;
+}
+/* Gợi ý nhỏ */
+.member-card1 p {
+    grid-column: 1 / -1;
+    font-size: 0.85rem;
+    color: #777;
+    font-style: italic;
+    margin: 0;
+}
+
+.loading1 {
+    color: #007bff;
+    font-size: 0.8rem;
+    margin-top: 5px;
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .member-card1 > div {
+        grid-template-columns: 1fr;
+    }
+    .register-container1 {
+        padding: 15px;
+    }
+}

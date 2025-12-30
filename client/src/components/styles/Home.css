@@ -1,0 +1,113 @@
+/* Header */
+.main-header-section {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.main-title {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background-color: aliceblue;
+    color: #212a3c;
+    height: 70px;
+    letter-spacing: -1px;
+    margin-bottom: 10px;
+    background: linear-gradient(90deg, #0f172a 0%, #333f51 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0px 8px 10px rgba(7, 35, 81, 0.2));
+}
+
+.main-subtitle {
+    color: #21262f;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+/* Grid Container */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Thẻ Card */
+.stat-card-item {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 30px 25px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(164, 111, 111, 0.3);
+    box-shadow: 0 10px 15px -3px rgba(218, 179, 179, 0.1);
+    overflow: hidden;
+}
+
+.stat-card-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15);
+}
+
+/* Hiệu ứng tia sáng trang trí sau card */
+.stat-card-item::after {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+    transform: rotate(45deg);
+}
+
+/* Icon Box */
+.stat-icon-box {
+    width: 70px;
+    height: 70px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    margin-right: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+}
+
+/* Nội dung */
+.stat-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #2d3748;
+    line-height: 1.2;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #718096;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 5px;
+}
+
+/* Hiệu ứng loading */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-weight: 700;
+    color: #2563eb;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}

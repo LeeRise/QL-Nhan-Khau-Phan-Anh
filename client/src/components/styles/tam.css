@@ -1,0 +1,230 @@
+/* --- TỔNG THỂ --- */
+.container-residence-7 {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+    color: #334155;
+    border: 1px solid #f1f5f9;
+}
+
+.title-page-7 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #1e40af;
+    text-align: center;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eff6ff;
+    letter-spacing: -0.5px;
+}
+
+.form-main-7 {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+/* --- PHẦN ĐỊNH DANH (Identity) --- */
+.section-identity-7 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    background: #f8fafc;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.input-with-button-7 {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-check-7 {
+    background: #2563eb;
+    color: white;
+    padding: 0 20px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-check-7:hover {
+    background: #1d4ed8;
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+/* --- PHẦN THÔNG TIN NHÂN KHẨU --- */
+.section-info-7 {
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.section-info-7.exists-7 {
+    background: #f0fdf4;
+    border-color: #bbf7d0;
+}
+
+.section-info-7.new-7 {
+    background: #ffffff;
+}
+
+.section-subtitle-7 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #475569;
+}
+
+/* --- GRID LAYOUT --- */
+.grid-layout-7 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.col-span-2-7 { grid-column: span 2; }
+.col-span-full-7 { grid-column: span 4; }
+
+/* --- INPUTS & LABELS --- */
+.label-text-7 {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #475569;
+    margin-bottom: 8px;
+}
+
+.label-small-7 {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 5px;
+}
+
+.input-custom-7, .select-custom-7 {
+    width: 89%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+    background: white;
+}
+
+.input-custom-7:focus, .select-custom-7:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input-custom-7.checking-7 {
+    background: #eff6ff;
+    border-color: #60a5fa;
+    animation: pulse-7 1.5s infinite;
+}
+
+/* --- PHẦN BIẾN ĐỘNG (Dynamic) --- */
+.section-dynamic-7 {
+    background: #f0f7ff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #bae6fd;
+}
+
+.section-subtitle-dynamic-7 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #0369a1;
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.label-bold-7 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1d4ed8;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.label-orange-7 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #c2410c;
+    text-decoration: underline;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.input-blue-7, .textarea-blue-7 {
+    width: 90%;
+    padding: 10px;
+    border: 2px solid #bae6fd;
+    border-radius: 8px;
+    outline: none;
+}
+
+.input-orange-7 {
+    width: 90%;
+    padding: 10px;
+    border: 2px solid #fed7aa;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* --- NÚT BẤM --- */
+.btn-submit-7 {
+    width: 100%;
+    padding: 16px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2);
+}
+
+.btn-submit-7:hover:not(.btn-loading-7) {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+}
+
+.btn-loading-7 {
+    background: #94a3b8;
+    cursor: not-allowed;
+}
+
+/* --- ANIMATIONS --- */
+@keyframes pulse-7 {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .grid-layout-7 {
+        grid-template-columns: 1fr;
+    }
+    .col-span-2-7, .col-span-full-7 {
+        grid-column: span 1;
+    }
+    .section-identity-7 {
+        grid-template-columns: 1fr;
+    }
+}

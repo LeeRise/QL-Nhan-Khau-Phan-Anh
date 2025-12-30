@@ -1,0 +1,328 @@
+/* --- TỔNG THỂ --- */
+.household-search-wrapper8 {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    color: #2d3748;
+    line-height: 1.5;
+}
+
+.page-title8 {
+    font-size: 1.875rem;
+    font-weight: 800;
+    color: #1a365d;
+    text-align: center;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* --- FORM TÌM KIẾM (Search Card) --- */
+.search-filter-card8 {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #edf2f7;
+    margin-bottom: 2rem;
+}
+
+.search-form-grid8 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.25rem;
+    align-items: flex-end;
+}
+
+.form-group8 {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-label8 {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.form-input8 {
+    padding: 0.625rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    outline: none;
+}
+
+.form-input8:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.btn-search-submit8 {
+    background: #2b6cb0;
+    color: white;
+    padding: 0.625rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.btn-search-submit8:hover {
+    background: #2c5282;
+    transform: translateY(-1px);
+}
+
+/* --- TÓM TẮT THÔNG TIN HỘ KHẨU --- */
+.info-summary-card8 {
+    background: linear-gradient(135deg, #ebf8ff 0%, #ffffff 100%);
+    border-left: 5px solid #3182ce;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.summary-header8 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.summary-header8 h3 {
+    margin: 0;
+    font-size: 1.25rem;
+    color: #2a4365;
+}
+
+.badge-id8 {
+    background: #3182ce;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.summary-body8 {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+}
+
+.highlight8 {
+    color: #2c5282;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+/* --- BẢNG DỮ LIỆU (Data Table) --- */
+.table-container8 {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    border: 1px solid #f0f4f8;
+    margin-bottom: 2.5rem;
+}
+
+.data-table8 {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table8 th {
+    background: #f8fafc;
+    padding: 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.data-table8 td {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.95rem;
+}
+
+.data-table8 tbody tr:hover {
+    background-color: #f1f9ff;
+}
+
+.badge-relation8 {
+    background: #e2e8f0;
+    color: #475569;
+    padding: 0.2rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.btn-action-detail8 {
+    background: #edf2f7;
+    color: #2d3748;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-action-detail8:hover {
+    background: #2b6cb0;
+    color: white;
+}
+
+/* --- LỊCH SỬ BIẾN ĐỘNG --- */
+.history-section8 {
+    margin-top: 3rem;
+}
+
+.section-subtitle8 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.scrollable8 {
+    overflow-x: auto;
+}
+
+.status-pill {
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    display: inline-block;
+}
+
+.pill-success { background: #c6f6d5; color: #22543d; }
+.pill-warning { background: #feebc8; color: #744210; }
+
+/* --- MODAL CHI TIẾT --- */
+.modal-overlay8 {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.modal-content-large8 {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-header8 {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #edf2f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-title8 { font-size: 1.5rem; color: #1a365d; margin: 0; }
+
+.btn-modal-close8 {
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: #a0aec0;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-scroll-area8 {
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+/* --- INFO GRID TRONG MODAL --- */
+.info-grid8 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.info-card8 {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 12px;
+    border: 1px solid #eef2f7;
+}
+
+.card-label8 {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #718096;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.card-value8 {
+    font-size: 1rem;
+    color: #2d3748;
+    font-weight: 500;
+}
+
+.card-highlight8 {
+    background: #ebf8ff;
+    border-color: #bee3f8;
+}
+
+.card-highlight8 .card-value8 {
+    color: #2b6cb0;
+    font-weight: 700;
+}
+
+.span-full8 { grid-column: 1 / -1; }
+
+.status-banner8 { margin-bottom: 1.5rem; }
+
+.badge-alive8 { background: #c6f6d5; color: #22543d; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 700; }
+.badge-deceased8 { background: #fed7d7; color: #822727; padding: 0.5rem 1rem; border-radius: 8px; font-weight: 700; }
+
+.block-title8 {
+    color: #4a5568;
+    border-left: 4px solid #3182ce;
+    padding-left: 0.75rem;
+    margin: 1.5rem 0 1rem 0;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .search-form-grid8 { grid-template-columns: 1fr; }
+    .summary-body8 { grid-template-columns: 1fr; }
+    .page-title8 { font-size: 1.5rem; }
+    .modal-content-large8 { height: 100%; border-radius: 0; }
+}
+
+.no-data {
+    color: #a0aec0;
+    font-style: italic;
+}

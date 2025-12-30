@@ -1,0 +1,301 @@
+/* --- TỔNG THỂ --- */
+.admin-container {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    color: #334155;
+}
+
+.admin-container h2 {
+    color: #0f172a;
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    border-left: 6px solid #2563eb;
+    padding-left: 15px;
+}
+
+/* --- DANH SÁCH PHẢN ÁNH --- */
+.list-container9 {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.pa-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.pa-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.pa-card h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    color: #1e293b;
+    line-height: 1.4;
+}
+
+.pa-card p {
+    font-size: 0.95rem;
+    color: #64748b;
+    margin: 0.5rem 0;
+}
+
+/* --- BADGE TRẠNG THÁI --- */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.status-Chờ\ xử\ lý { background: #fee2e2; color: #991b1b; }
+.status-Đã\ tiếp\ nhận { background: #e0f2fe; color: #075985; }
+.status-Đã\ xử\ lý { background: #dcfce7; color: #166534; }
+
+/* --- NÚT BẤM --- */
+button {
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    font-weight: 600;
+}
+
+.pa-card > button {
+    margin-top: 1rem;
+    background: #f1f5f9;
+    color: #475569;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+}
+
+.pa-card > button:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+/* --- CHI TIẾT MỞ RỘNG --- */
+.pa-detail-expanded {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px dashed #e2e8f0;
+    animation: slideDown9 0.3s ease-out;
+}
+
+.pa-detail-expanded h5 {
+    font-size: 1rem;
+    color: #334155;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.pa-detail-expanded p {
+    background: #f8fafc;
+    padding: 1rem;
+    border-radius: 8px;
+    color: #475569;
+    line-height: 1.6;
+    border: 1px solid #f1f5f9;
+}
+
+/* --- MEDIA (HÌNH ẢNH/VIDEO) --- */
+.pa-detail-expanded img, 
+.pa-detail-expanded video {
+    max-width: 100%;
+    max-height: 400px;
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+/* --- FORM PHẢN HỒI --- */
+.response-form {
+    background: #f1f5f9;
+    padding: 1.5rem;
+    border-radius: 12px;
+    margin-top: 1.5rem;
+}
+
+.response-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.response-form select {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.response-form textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    margin-bottom: 1rem;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.response-form div {
+    display: flex;
+    gap: 10px;
+}
+
+.response-form button:first-child {
+    background: #2563eb;
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+}
+
+.response-form button:first-child:hover {
+    background: #1d4ed8;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.response-form button:last-child {
+    background: #ffffff;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+}
+
+/* --- ANIMATION --- */
+@keyframes slideDown9 {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 640px) {
+    .pa-card { padding: 1rem; }
+    .response-form div { flex-direction: column; }
+    .response-form button { width: 100%; }
+}
+
+
+
+/* --- CONTAINER TỔNG --- */
+.filter-container {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px; 
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 25px;
+    align-items: flex-end; 
+}
+/* --- ĐỊNH DẠNG CHUNG CHO TẤT CẢ Ô NHẬP LIỆU --- */
+.filter-container input,
+.filter-container select,
+.filter-container button {
+    box-sizing: border-box; 
+    height: 45px; 
+    margin: 0;
+    padding: 0 12px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+    background-color: #f8fafc;
+    transition: all 0.2s ease-in-out;
+}
+
+
+/* Ô tiêu đề rộng hơn các ô khác */
+.filter-container input[name="tieuDe"] {
+    flex: 2; 
+    min-width: 200px;
+}
+
+/* Các ô select và date chiếm khoảng trống bằng nhau */
+.filter-container select,
+.filter-container input[type="date"] {
+    flex: 1;
+    min-width: 150px;
+    cursor: pointer;
+}
+
+/* --- HIỆU ỨNG FOCUS --- */
+.filter-container input:focus,
+.filter-container select:focus {
+    border-color: #2563eb;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* --- NÚT TÌM KIẾM --- */
+.filter-container button[type="submit"] {
+    flex: 0.5;
+    min-width: 120px;
+    background: #2563eb;
+    color: white;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.filter-container button[type="submit"]:hover {
+    background: #1d4ed8;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+
+.filter-container input[type="date"] {
+    display: flex;
+    align-items: center;
+    line-height: normal; 
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .filter-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr; 
+    }
+    
+    .filter-container input[name="tieuDe"] {
+        grid-column: span 2;
+    }
+}
+
+@media (max-width: 600px) {
+    .filter-container {
+        display: flex;
+        flex-direction: column; 
+    }
+
+    .filter-container input,
+    .filter-container select,
+    .filter-container button {
+        width: 100%;
+        min-width: 0;
+    }
+}

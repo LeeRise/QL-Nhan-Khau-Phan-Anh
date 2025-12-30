@@ -1,0 +1,235 @@
+/* tackKhau.css */
+
+/* Tổng thể trang */
+.split-page2 {
+    background-color: #f0f2f5;
+    min-height: 100vh;
+    padding: 30px 15px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+}
+
+.split-page__container2 {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.split-page__title2 {
+    color: #1a3a5a;
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* Các phân đoạn (Sections) */
+.split-page__section {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    margin-bottom: 25px;
+    border: 1px solid #e1e4e8;
+}
+
+.section__title2 {
+    font-size: 18px;
+    color: #0056b3;
+    margin-bottom: 20px;
+    border-left: 5px solid #0056b3;
+    padding-left: 15px;
+    font-weight: 600;
+}
+
+/* Phần I: Tìm kiếm */
+.search-form2 {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-form__select2, 
+.search-form__input2 {
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.search-form__select2 {
+    background-color: #f8f9fa;
+    min-width: 150px;
+}
+
+.search-form__input2 {
+    flex: 1;
+    min-width: 250px;
+}
+
+.search-form__input2:focus {
+    border-color: #0056b3;
+}
+
+.search-form__btn2 {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.search-form__btn2:hover {
+    background-color: #004494;
+}
+
+/* Bố cục lưới cho phần II và III */
+.split-page__content-grid2 {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 25px;
+}
+
+@media (max-width: 992px) {
+    .split-page__content-grid2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Phần II: Bảng thành viên */
+.table-wrapper2 {
+    overflow-x: auto;
+}
+
+.member-table2 {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.member-table__head2 th {
+    background-color: #f8f9fa;
+    color: #495057;
+    text-align: left;
+    padding: 15px;
+    font-size: 14px;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.member-table__td2 {
+    padding: 15px;
+    border-bottom: 1px solid #f1f1f1;
+    vertical-align: middle;
+}
+
+.member-table__tr--selected {
+    background-color: #e7f3ff;
+}
+
+.member-table__name2 {
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.member-table__subtext2 {
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.member-table__input2 {
+    width: 80%;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 3rem;
+
+}
+
+.member-table__input--disabled {
+    background-color: #d4edda;
+    color: #155724;
+    font-weight: bold;
+    border: none;
+    text-align: center;
+}
+
+/* Phần III: Form thông tin hộ mới */
+.split-form2 {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.split-form__group2 {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.split-form__label2 {
+    font-weight: 600;
+    font-size: 14px;
+    color: #495057;
+}
+
+.split-form__textarea2 {
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    resize: none;
+    font-family: inherit;
+}
+
+.split-form__select2 {
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.split-form__submit-btn {
+    background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-top: 10px;
+}
+
+.split-form__submit-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(40, 167, 69, 0.3);
+}
+
+.split-form__submit-btn--disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Tiện ích */
+.member-table__empty2 {
+    text-align: center;
+    padding: 40px;
+    color: #adb5bd;
+    font-style: italic;
+}
+
+.member-table__placeholder {
+    color: #ced4da;
+    font-size: 13px;
+}
+.split-form__submit-btn2{
+    border-radius: 1rem;
+    background-color: red;
+    color: white;
+}

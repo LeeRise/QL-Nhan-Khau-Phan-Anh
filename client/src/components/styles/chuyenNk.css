@@ -1,0 +1,295 @@
+/* --- TỔNG THỂ --- */
+.departure-page-6 {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 10px 20px;
+    color: #334155;
+    background-color: #f8fafc;
+}
+
+.page-title-6 {
+    text-align: center;
+    font-size: 28px;
+    color: #1e293b;
+    margin-bottom: 30px;
+}
+
+/* --- THANH TÌM KIẾM --- */
+.search-box-6 {
+    display: flex;
+    align-items: flex-end;
+    gap: 15px;
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    margin-bottom: 30px;
+    border: 1px solid #e2e8f0;
+}
+
+.input-group-6 {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.input-group-6 label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+}
+
+.expand-6 { flex: 1; }
+
+.select-custom-6, .input-custom-6 {
+    padding: 12px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: all 0.2s;
+    outline: none;
+    background: #fff;
+}
+
+.select-custom-6:focus, .input-custom-6:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.btn-search-6 {
+    background: #1e293b;
+    color: white;
+    padding: 13px 25px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-search-6:hover { background: #0f172a; }
+
+/* --- BỐ CỤC CHÍNH --- */
+.main-layout-6 {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 25px;
+    align-items: start;
+}
+
+/* --- DANH SÁCH THÀNH VIÊN (BÊN TRÁI) --- */
+.list-section-6 {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.section-header-6 {
+    padding: 16px 20px;
+    background: #f1f5f9;
+    font-weight: 700;
+    color: #475569;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.data-table-6 {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table-6 th {
+    text-align: left;
+    padding: 12px 20px;
+    font-size: 13px;
+    color: #64748b;
+    background: #fafafa;
+}
+
+.data-table-6 td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.active-row-6 { background-color: #f0f9ff; }
+
+.owner-tag-6 {
+    background: #ffedd5;
+    color: #9a3412;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.member-tag-6 {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.btn-action-6 {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-action-6.selected {
+    background: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+/* --- FORM CHI TIẾT (BÊN PHẢI) --- */
+.departure-form-6 {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 20px;
+}
+
+.form-header-6 {
+    margin-bottom: 25px;
+    font-size: 20px;
+}
+
+.form-header-6 span { color: #ef4444; display: block; }
+.form-header-6 small { font-size: 13px; color: #94a3b8; font-weight: 400; }
+
+.grid-2-cols-6 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.field-6 {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+}
+
+.field-6 label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.field-6 input, .field-6 select {
+    padding: 10px 14px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* --- BOX THAY ĐỔI CHỦ HỘ --- */
+.owner-change-box-6 {
+    background: #fffaf5;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #fed7aa;
+    margin: 20px 0;
+}
+
+.warning-text-6 {
+    color: #c2410c;
+    font-weight: 700;
+    font-size: 13px;
+    margin-bottom: 15px;
+}
+
+.label-blue-6 {
+    color: #2563eb;
+    font-weight: 700;
+    font-size: 12px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.rel-input-row-6 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.highlight-input-6 {
+    width: 150px;
+    border: 1px solid #3b82f6 !important;
+    background: #f8fafc;
+}
+
+.disabled-input-6 { background: #f1f5f9; color: #94a3b8; width: 150px; }
+
+/* --- NÚT SUBMIT --- */
+.btn-submit-final-6 {
+    width: 100%;
+    padding: 16px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px -1px rgba(239, 68, 68, 0.2);
+    transition: all 0.2s;
+}
+
+.btn-submit-final-6:hover:not(:disabled) {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+.btn-submit-final-6:disabled { background: #94a3b8; cursor: not-allowed; }
+
+/* --- TRẠNG THÁI TRỐNG --- */
+.empty-form-state-6 {
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #e2e8f0;
+    border-radius: 16px;
+    color: #94a3b8;
+    text-align: center;
+    padding: 20px;
+}
+
+.error-toast-6 {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #1e293b;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .main-layout-6 { grid-template-columns: 1fr; }
+    .search-box-6 { flex-direction: column; align-items: stretch; }
+    .departure-form-6 { position: static; }
+}

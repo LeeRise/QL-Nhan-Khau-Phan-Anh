@@ -1,0 +1,229 @@
+/* chuyenHo.css */
+
+/* 1. Layout tổng thể */
+.move-page3 {
+    background-color: #f4f7f9;
+    min-height: 100vh;
+    padding: 40px 20px;
+    font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.move-page__container3 {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+
+/* 2. Grid System */
+.move-page__grid3 {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 30px;
+    align-items: start;
+}
+
+@media (max-width: 1024px) {
+    .move-page__grid3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 3. Card & Typography */
+.card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 25px;
+}
+
+.card--sticky3 {
+    position: sticky;
+    top: 20px;
+}
+
+.card__title3 {
+    font-size: 18px;
+    color: #334155;
+    margin-top: 0;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.card__step3 {
+    color: #3b82f6;
+    font-weight: 800;
+    margin-right: 8px;
+}
+
+.card__step--red3 {
+    color: #ef4444;
+}
+
+/* 4. Form Tìm kiếm */
+.search-form3 {
+    display: flex;
+    gap: 12px;
+}
+
+.search-form__select3 {
+    padding: 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 10px;
+    background: #f8fafc;
+    outline: none;
+}
+
+.search-form__input3 {
+    flex: 1;
+    padding: 12px 18px;
+    border: 1px solid #cbd5e0;
+    border-radius: 10px;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.search-form__input3:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 5. Bảng dữ liệu */
+.table-wrapper3 {
+    overflow-x: auto;
+}
+
+.data-table3 {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table__th3 {
+    text-align: left;
+    padding: 12px;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+
+.data-table__td3 {
+    padding: 15px 12px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.data-table__td--name3 {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+/* Badge quan hệ */
+.badge3 {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.badge--danger { background: #fee2e2; color: #dc2626; }
+.badge--neutral { background: #f1f5f9; color: #475569; }
+
+/* 6. Form Chuyển đi (Bên phải) */
+.entry-form3 {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.entry-form__group3 {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.entry-form__label3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+.entry-form__input3, 
+.entry-form__textarea3 {
+    padding: 14px;
+    border: 2px solid #e2e8f0;
+    border-radius: 12px; 
+    font-size: 15px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.entry-form__textarea3 {
+    min-height: 80px;
+    resize: none;
+}
+
+
+
+
+
+/* 7. NÚT XÁC NHẬN MÀU ĐỎ NỔI BẬT */
+.button {
+    border: none;
+    border-radius: 30px; 
+    padding: 14px 24px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.button--primary3 {
+    background: #3b82f6;
+    color: white;
+    border-radius: 10px;
+}
+
+.button--danger {
+    background: #dc3545; 
+    color: #ffffff;
+}
+
+.button--danger:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+.button--disabled {
+    background: #e2e8f0 !important;
+    color: #94a3b8 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Thông báo & Ghi chú */
+.alert {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+.alert--success3 { background: #dcfce7; color: #166534; }
+.alert--error3 { background: #fee2e2; color: #991b1b; }
+
+.entry-form__note3 {
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.5;
+    font-style: italic;
+    margin-top: 10px;
+}
+
+.empty-state3 {
+    text-align: center;
+    padding: 50px;
+    color: #cbd5e0;
+}

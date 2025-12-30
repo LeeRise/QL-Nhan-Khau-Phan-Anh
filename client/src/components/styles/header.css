@@ -1,0 +1,243 @@
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.header {
+    height: 60px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    background: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    flex-shrink: 0;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+.user-icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    transition: all 0.2s;
+}
+.app-body {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    height: calc(100vh - 60px);
+    width: 100%;
+    overflow: hidden;
+}
+
+.sidebar-wrapper {
+    width: 300px;
+    height: 100%;
+    background-color: #000;
+    flex-shrink: 0; 
+    overflow-y: auto;
+}
+
+.content-main {
+    flex: 1; 
+    height: 100%;
+    overflow-y: auto; 
+    background-color: #f0f2f5;
+}
+
+
+.logo-h{
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+    .return{
+        text-decoration: none;
+    }
+}
+.header img{
+    width: auto;
+    height: 40px;
+}
+.header-login{
+    background-color: rgb(32, 97, 218);
+    color: white;
+    border-radius: 1.5rem;
+    padding: 5px 8px;
+}
+.sidebar-overlay{
+    background-color: black;
+    height: 900px;
+    width:300px;
+}
+.sidebar-nav{
+    color: white;
+    padding-top: 0px;
+    list-style: none;
+    font-size: 1.1rem;
+}
+.sidebar-content{
+    color: white;
+}
+.sidebar-nav li{
+    padding-top: 10px;
+}
+.sidebar-content:hover{
+    color: rgb(133, 124, 124);
+}
+
+
+.header-auth-section{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.user-dropdown-menu{
+    position: absolute;
+    top: 100%; 
+    right: 0;
+    margin-top: 10px; 
+    background-color: white;
+    color: #333;
+    min-width: 220px; 
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); 
+    z-index: 100;
+    overflow: hidden; 
+    border: 1px solid #ddd;
+    text-align: left;
+    transform-origin: top right;
+    animation: fadeIn 0.3s ease-out; 
+}
+.menu-item{
+    display: flex; 
+    align-items: center; 
+    padding: 12px 15px;
+    text-decoration: none; 
+    color: #333;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+    border-bottom: 1px solid #eee;
+}
+.menu-item:hover{
+    background-color: #d1d0d0;
+}
+.menu-item-logout-btn{
+    display: flex; 
+    align-items: center; 
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    font-weight: 500;
+    color: #333;
+    border-top: 1px solid #eee;
+    background-color: white;
+}
+.menu-item-logout-btn:hover{
+    background-color: #d1d0d0;
+}
+.user-icon-btn:hover{
+    border-radius: 75%;
+    background-color: #e2e1e1;
+}
+.notification-wrapper,
+.user-menu-wrapper {
+    position: relative; 
+    align-items: center;
+}
+
+.noti-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff4d4f;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(255, 77, 79, 0.3);
+}
+
+.noti-dropdown {
+    position: absolute;
+    top: 50px;
+    right: -10px;
+    width: 350px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    border: 1px solid #f0f0f0;
+    overflow: hidden;
+    animation: slideDown 0.3s ease-out;
+    z-index: 1001;
+}
+
+.noti-header {
+    padding: 15px;
+    font-weight: 700;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    color: #1890ff;
+    font-size: 16px;
+}
+
+.noti-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.noti-item {
+    padding: 15px;
+    border-bottom: 1px solid #f5f5f5;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.noti-item:hover {
+    background-color: #fafafa;
+}
+
+.noti-item.unread {
+    background-color: #e6f7ff;
+    border-left: 4px solid #1890ff;
+}
+
+.noti-Tieude {
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+.noti-ND {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.noti-PA {
+    font-size: 11px;
+    color: #999;
+}
+
+.noti-empty {
+    padding: 30px;
+    text-align: center;
+    color: #999;
+    font-style: italic;
+}

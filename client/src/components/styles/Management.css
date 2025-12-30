@@ -1,0 +1,86 @@
+/* Container chính */
+.stats-dashboard-container10 {
+    padding: 30px;
+    background-color: #f8fafc;
+    min-height: 100vh;
+}
+
+.stats-dashboard-container10 h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #1e293b;
+    margin-bottom: 30px;
+    text-align: left;
+    border-left: 6px solid #390e84;
+    padding-left: 15px;
+}
+
+/* Grid layout */
+.stats-grid10 {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Thẻ Card chức năng */
+.stat-card10 {
+    background: #ffffff;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+}
+
+.stat-card10:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+    border-color: #390443;
+}
+
+/* Link bọc toàn bộ card */
+.stat-link10 {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 25px;
+    width: 100%;
+    color: inherit;
+}
+
+/* Nội dung bên trong */
+.stat-content10 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.stat-label10 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #334155;
+    line-height: 1.4;
+    transition: color 0.2s;
+}
+
+.stat-card10:hover .stat-label10 {
+    color: #24064b;
+}
+
+/* Trang trí thêm một chút icon giả bằng CSS (Optional) */
+.stat-card10::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background-color: #580a95;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.stat-card10:hover::before {
+    opacity: 1;
+}
