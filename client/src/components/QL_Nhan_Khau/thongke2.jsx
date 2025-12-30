@@ -15,6 +15,7 @@ const ResidenceFluctuationPage = () => {
 
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [jumpPage, setJumpPage] = useState('');
     const rowsPerPage = 20;
 
     useEffect(() => {
@@ -38,9 +39,23 @@ const ResidenceFluctuationPage = () => {
     const currentRows = displayData.slice(indexOfFirstRow, indexOfLastRow);
     const totalPages = Math.ceil(displayData.length / rowsPerPage);
 
+    
     const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (pageNumber >= 1 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+            setJumpPage(''); // Reset ô nhập sau khi chuyển trang
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    };
+
+    const handleJumpPage = (e) => {
+        if (e.key === 'Enter') {
+            const pageNum = parseInt(jumpPage);
+            if (pageNum >= 1 && pageNum <= totalPages) {
+                paginate(pageNum);
+            } else {
+            }
+        }
     };
 
     return (
@@ -102,7 +117,7 @@ const ResidenceFluctuationPage = () => {
                             </thead>
                             <tbody>
                                 {currentRows?.length > 0 ? currentRows.map((item, idx) => (
-                                    <tr key={idx}>
+                                    <tr key={indexOfFirstRow+idx+1}>
                                         <td>
                                             <span className={item.Loai_Bien_Dong === 'Tạm trú' ? 'badge-tam-tru11' : 'badge-tam-vang11'}>
                                                 {item.Loai_Bien_Dong}
@@ -133,15 +148,7 @@ const ResidenceFluctuationPage = () => {
                                     Trước
                                 </button>
                                 
-                                {[...Array(totalPages)].map((_, i) => (
-                                    <button
-                                        key={i + 1}
-                                        className={`page-btn11 ${currentPage === i + 1 ? 'active-page11' : ''}`}
-                                        onClick={() => paginate(i + 1)}
-                                    >
-                                        {i + 1}
-                                    </button>
-                                ))}
+                                <span> {currentPage} / {totalPages}</span>
 
                                 <button 
                                     className="page-btn11"
@@ -150,6 +157,18 @@ const ResidenceFluctuationPage = () => {
                                 >
                                     Sau
                                 </button>
+                                <div className="jump-page11" >
+                                    <span>Đến trang:</span>
+                                    <input 
+                                        type="number" 
+                                        className="input11" 
+                                        value={jumpPage}
+                                        onChange={(e) => setJumpPage(e.target.value)}
+                                        onKeyDown={handleJumpPage}
+                                        placeholder={`${currentPage}`}
+                                    />
+                                    <small style={{ marginLeft: '5px', color: '#666' }}>/ {totalPages}</small>
+                                </div>
                             </div>
                         )}
                     </div>

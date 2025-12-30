@@ -135,3 +135,39 @@
 
 .badge-tam-tru11 { background: #e0f2fe; color: #0369a1; padding: 4px 10px; border-radius: 6px; font-weight: 600; }
 .badge-tam-vang11 { background: #fef3c7; color: #b45309; padding: 4px 10px; border-radius: 6px; font-weight: 600; }
+.pagination-wrapper11 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-top: 1px solid #e2e8f0;
+    margin-top: 20px;
+    left: 20px;
+}
+.jump-page11 {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+    font-size: 14px;
+    color: #475569;
+    font-weight: 500;
+}
+.jump-page11 span{
+    margin-left: 20px;
+}
+.jump-page11 .input11::-webkit-inner-spin-button,
+.jump-page11 .input11::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.jump-page11 .input11 {
+    width: 50px;
+    height: 32px;
+    padding: 0 5px;
+    text-align: center;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    outline: none;
+    transition: all 0.2s ease;
+    background-color: #f8fafc;
+}

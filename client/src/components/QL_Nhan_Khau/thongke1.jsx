@@ -13,6 +13,7 @@ const DemographicStats = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 20;
+    const [jumpPage, setJumpPage] = useState('');
     useEffect(() => {
         dispatch(getDemographicStats());
     }, [dispatch]);
@@ -27,7 +28,7 @@ const DemographicStats = () => {
 ? demographicStats.filter(item => {
     const safeMatch = (itemValue, filterValue) => {
         if (!filterValue || filterValue.trim() === '') return true;
-        if (!itemValue) return false; // Có search nhưng data lại trống thì không khớp
+        if (!itemValue) return false; 
         return itemValue.toString().toLowerCase().includes(filterValue.toLowerCase());
     };
 
@@ -57,8 +58,23 @@ const DemographicStats = () => {
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
     const currentRows = filteredData.slice(indexOfFirstRow, indexOfLastRow);
     const totalPages = Math.ceil(filteredData.length / rowsPerPage);
-    const paginate = (pageNumber) => setCurrentPage(pageNumber);
     
+    const paginate = (pageNumber) => {
+        if (pageNumber >= 1 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+            setJumpPage(''); 
+        }
+    };
+
+    const handleJumpPage = (e) => {
+        if (e.key === 'Enter') {
+            const pageNum = parseInt(jumpPage);
+            if (pageNum >= 1 && pageNum <= totalPages) {
+                paginate(pageNum);
+            } else {
+            }
+        }
+    };
 
     return (
         <div className="container11">
@@ -92,9 +108,10 @@ const DemographicStats = () => {
                             <option value="Đã kết hôn">Đã kết hôn</option>
                             <option value="Ly hôn">Ly hôn</option>
                         </select>
-                        <br/>
+                        
+                        <label>Ngày ĐK thường trú:</label>
                         <div className="filter-item">
-        <label>Ngày ĐK thường trú:</label>
+        
         <input 
             className="input11" 
             name="ngayDKThuongTru" 
@@ -127,11 +144,11 @@ const DemographicStats = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {filteredData.length > 0 ? filteredData.map((item, index) => {
+                                {currentRows.length > 0 ? currentRows.map((item, index) => {
                                     const age = new Date().getFullYear() - new Date(item.Ngay_Sinh).getFullYear();
                                     return (
                                         <tr key={item.Ma_NK || index}>
-                                            <td>{index + 1}</td>
+                                            <td>{indexOfFirstRow+index+1}</td>
                                             <td>{item.Ma_CCCD}</td>
                                             <td>
                                                 <div style={{fontWeight: '700'}}>{item.Ho_Ten}</div>
@@ -167,15 +184,7 @@ const DemographicStats = () => {
                                     &laquo; Trước
                                 </button>
                                 
-                                {[...Array(totalPages)].map((_, i) => (
-                                    <button 
-                                        key={i + 1} 
-                                        onClick={() => paginate(i + 1)}
-                                        className={`page-btn11 ${currentPage === i + 1 ? 'active-page11' : ''}`}
-                                    >
-                                        {i + 1}
-                                    </button>
-                                ))}
+                                <button className="page-btn11 active-page11">{currentPage}</button>
 
                                 <button 
                                     disabled={currentPage === totalPages} 
@@ -184,7 +193,20 @@ const DemographicStats = () => {
                                 >
                                     Sau &raquo;
                                 </button>
-                            </div>
+                            
+                            <div className="jump-page11">
+                                    <span>Đến trang: </span>
+                                    <input 
+                                        type="number" 
+                                        className="input11" 
+                                        value={jumpPage}
+                                        onChange={(e) => setJumpPage(e.target.value)}
+                                        onKeyDown={handleJumpPage}
+                                        placeholder={`${currentPage}`}
+                                    />
+                                    <small >/ {totalPages}</small>
+                                </div>
+                                </div>
                         )}
                     </div>
                 )}
