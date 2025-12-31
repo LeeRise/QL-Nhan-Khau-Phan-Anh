@@ -25,6 +25,10 @@
     text-align: center;
 }
 
+.login1 h1 {
+    color: #000; /* Change the login title color to black */
+}
+
 .input-row {
     display: flex;
     align-items: center; 
@@ -47,6 +51,7 @@
     flex: 1;
     font-size: 16px;
     background: transparent;
+    color: #000; /* Change this to your desired text color */
 }
 
 .login-actions {
@@ -92,7 +97,7 @@
 }
 
 .error-message {
-    color: white;
+    color: black;
     border-radius: 7px;
     display: flex;
     justify-content: center;
