@@ -83,6 +83,7 @@ export default function Header1(){
                 <div className="header-auth-section" ref={userMenuRef}>
                     {isAuthenticated ? (
                         <>
+                        <div className='user-menu-wrapper'>
                             <button className="user-icon-btn" onClick={toggleUserMenu}>
                                 <FaUserCircle size={30} /> 
                             </button>
@@ -95,6 +96,7 @@ export default function Header1(){
                                     </div>
                                 </div>
                             )}
+                        </div>
                         </>
                     ) : (
                         isMain && (
